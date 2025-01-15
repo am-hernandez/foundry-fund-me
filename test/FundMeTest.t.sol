@@ -45,8 +45,25 @@ contract FundMeTest is Test {
 
         fundMe.fund{value: SEND_VALUE}();
 
-        uint256 amountFunded = fundMe.getAddressToAmountFunded(address(this));
+        uint256 amountFunded = fundMe.getAddressToAmountFunded(USER);
 
         assertEq(amountFunded, SEND_VALUE);
+    }
+
+    function testAddsFunderToArrayOfFunders() public {
+        vm.prank(USER);
+        fundMe.fund{value: SEND_VALUE}();
+
+        address funder = fundMe.getFunder(0);
+        assertEq(funder, USER);
+    }
+
+    function testOnlyOwnerCanWithdraw() public {
+        vm.prank(USER);
+        fundMe.fund{value: SEND_VALUE}();
+
+        vm.expectRevert();
+        vm.prank(USER);
+        fundMe.withdraw();
     }
 }
