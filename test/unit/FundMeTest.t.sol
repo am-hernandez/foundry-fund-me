@@ -3,8 +3,8 @@
 pragma solidity 0.8.19;
 
 import {Test, console} from "forge-std/Test.sol";
-import {FundMe} from "../src/FundMe.sol";
-import {DeployFundMe} from "../script/DeployFundMe.s.sol";
+import {FundMe} from "../../src/FundMe.sol";
+import {DeployFundMe} from "../../script/DeployFundMe.s.sol";
 
 contract FundMeTest is Test {
     FundMe fundMe;
@@ -83,7 +83,10 @@ contract FundMeTest is Test {
         uint256 endingOwnerBalance = fundMe.getOwner().balance;
         uint256 endingFundMeBalance = address(fundMe).balance;
         assertEq(endingFundMeBalance, 0);
-        assertEq(startingOwnerBalance + startingFundMeBalance, endingOwnerBalance);
+        assertEq(
+            startingOwnerBalance + startingFundMeBalance,
+            endingOwnerBalance
+        );
     }
 
     function testWithdrawWithMultipleFunders() public funded {
@@ -107,7 +110,10 @@ contract FundMeTest is Test {
 
         // Assert
         assert(address(fundMe).balance == 0);
-        assert(startingFundMeBalance + startingOwnerBalance == fundMe.getOwner().balance);
+        assert(
+            startingFundMeBalance + startingOwnerBalance ==
+                fundMe.getOwner().balance
+        );
     }
 
     function testWithdrawWithMultipleFundersCheaper() public funded {
@@ -131,6 +137,9 @@ contract FundMeTest is Test {
 
         // Assert
         assert(address(fundMe).balance == 0);
-        assert(startingFundMeBalance + startingOwnerBalance == fundMe.getOwner().balance);
+        assert(
+            startingFundMeBalance + startingOwnerBalance ==
+                fundMe.getOwner().balance
+        );
     }
 }
